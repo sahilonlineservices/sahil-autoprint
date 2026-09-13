@@ -398,10 +398,34 @@ function setupPriceSettings() {
 
 
 /* =========================================================
+   EARLY AUTH CONTROLS
+   Logout is bound before shop loading so it works even when
+   the shop lookup/network request is slow or fails.
+   ========================================================= */
+function bindEarlyLogout() {
+  const btn = $("logoutBtn");
+  if (!btn || btn.dataset.boundEarlyLogout === "1") return;
+  btn.dataset.boundEarlyLogout = "1";
+  btn.addEventListener("click", () => {
+    btn.disabled = true;
+    btn.textContent = "Logging out...";
+    try {
+      if (db?.auth) db.auth.signOut().catch(err => console.warn("Logout signOut error:", err));
+    } catch (err) {
+      console.warn("Logout error:", err);
+    }
+    localStorage.removeItem("autoprint_shop");
+    setTimeout(() => window.location.replace("shop-login.html"), 50);
+  }, { once: true });
+}
+
+/* =========================================================
    INIT
    ========================================================= */
 
 async function init() {
+
+  bindEarlyLogout();
 
   if (!db) {
 
@@ -447,9 +471,12 @@ async function init() {
        LOAD CURRENT OWNER SHOP
     -------------------------------- */
 
-    shop =
-      await getOwnedShop();
+    $("shopName") && ($("shopName").textContent = "Loading shop...");
+    $("shopId") && ($("shopId").textContent = "Connecting...");
 
+    const shopLookup = getOwnedShop();
+    const timeout = new Promise(resolve => setTimeout(() => resolve(null), 10000));
+    shop = await Promise.race([shopLookup, timeout]);
 
     if (!shop) {
 
@@ -460,7 +487,7 @@ async function init() {
         "-";
 
       toast(
-        "No Shop is linked to this login account."
+        "Shop could not be loaded. Check Supabase/RLS or network connection."
       );
 
       return;
@@ -922,6 +949,7 @@ function render() {
         ? activeDevice.printer_name
         : "Printer not connected";
   }
+}
 
 
 /* =========================================================
