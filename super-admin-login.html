@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sahil AutoPrint • Super Admin Login</title>
+<style>
+:root{--navy:#101437;--navy2:#24145a;--purple:#7b3cff;--violet:#b34cff;--cyan:#25d9ff;--text:#141a38;--muted:#737e96}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text)}
+body{min-height:100vh;background:radial-gradient(circle at 12% 10%,rgba(123,60,255,.18),transparent 32%),radial-gradient(circle at 90% 85%,rgba(37,217,255,.12),transparent 28%),linear-gradient(135deg,#faf9ff,#f0f1fb);overflow:auto}
+.auth{min-height:100vh;display:grid;grid-template-columns:minmax(360px,.95fr) minmax(480px,1.05fr);gap:28px;max-width:1240px;margin:auto;padding:32px}.brand{position:relative;overflow:hidden;border-radius:30px;padding:48px;color:#fff;background:linear-gradient(145deg,#0d1030 0%,#28165d 52%,#5a2494 100%);box-shadow:0 30px 80px rgba(32,18,82,.25);display:flex;flex-direction:column;justify-content:center;min-height:650px}.brand:before{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.10);border-radius:50%;right:-180px;top:-160px;box-shadow:0 0 0 45px rgba(255,255,255,.025),0 0 0 95px rgba(255,255,255,.018)}.brand:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:linear-gradient(135deg,rgba(37,217,255,.13),rgba(179,76,255,.18));right:-100px;bottom:-100px}.mark{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,#7b3cff,#b34cff);display:grid;place-items:center;font-size:34px;box-shadow:0 14px 35px rgba(123,60,255,.32);position:relative;z-index:1}.kicker{margin-top:28px;font-size:11px;font-weight:900;letter-spacing:.18em;color:#d2baff;text-transform:uppercase;position:relative;z-index:1}.brand h1{font-size:44px;line-height:1.04;letter-spacing:-.035em;margin:10px 0 16px;position:relative;z-index:1}.brand p{font-size:15px;line-height:1.7;color:#ddd5ef;max-width:480px;position:relative;z-index:1}.points{display:grid;gap:13px;margin-top:28px;position:relative;z-index:1}.point{display:flex;align-items:center;gap:11px;color:#f2eeff;font-size:13px}.point b{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.11);display:grid;place-items:center;color:#d3a5ff}.powered{margin-top:auto;padding-top:28px;color:#aaa0c7;font-size:11px;position:relative;z-index:1}.powered strong{color:#fff}.right{display:flex;align-items:center;justify-content:center}.card{width:min(520px,100%);background:rgba(255,255,255,.97);border:1px solid rgba(229,228,242,.95);border-radius:28px;padding:34px;box-shadow:0 26px 75px rgba(29,20,65,.13)}.head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.15em;color:#7b3cff;text-transform:uppercase}.head h2{margin:7px 0 5px;font-size:31px;letter-spacing:-.03em}.sub{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.secure{white-space:nowrap;background:#f2edff;color:#7136d9;border:1px solid #e1d5ff;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:900}.form{margin-top:28px}.label{display:block;font-size:12px;font-weight:850;color:#4d5570;margin:0 0 7px}.wrap{height:50px;border:1px solid #dfe1ec;border-radius:13px;background:#fcfcff;display:flex;align-items:center;padding:0 12px;transition:.2s;margin-bottom:17px}.wrap:focus-within{border-color:#7b3cff;box-shadow:0 0 0 4px rgba(123,60,255,.09);background:#fff}.icon{width:24px;text-align:center;font-size:16px;margin-right:7px}.wrap input{width:100%;height:100%;border:0;outline:0;background:transparent;font-size:14px;color:var(--text)}.toggle{border:0;background:transparent;color:#7b3cff;font-size:11px;font-weight:900;cursor:pointer;padding:6px}.message{display:none;border-radius:12px;padding:11px 12px;margin-bottom:15px;font-size:12px;line-height:1.4}.message.error{display:block;color:#a92323;background:#fff1f1;border:1px solid #f1d1d1}.message.success{display:block;color:#167444;background:#edf9f1;border:1px solid #d2ecd9}.btn{width:100%;height:51px;border:0;border-radius:14px;background:linear-gradient(135deg,#24145a,#7b3cff);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 14px 30px rgba(123,60,255,.20);transition:.2s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.65;cursor:wait;transform:none}.info{display:flex;gap:9px;margin-top:23px;padding:12px 13px;background:#f7f5fc;border:1px solid #e8e4f3;border-radius:12px;color:#6d7083;font-size:11px;line-height:1.5}.info span{font-size:15px}.foot{text-align:center;margin-top:22px;color:#9aa0b2;font-size:10px}@media(max-width:900px){.auth{grid-template-columns:1fr;max-width:720px;padding:18px}.brand{min-height:280px;padding:30px}.brand h1{font-size:35px}.points{grid-template-columns:1fr 1fr}.powered{margin-top:22px}.right{padding-bottom:18px}}@media(max-width:560px){.auth{padding:10px}.brand{display:none}.card{padding:24px 20px;border-radius:20px}.head{display:block}.secure{display:inline-block;margin-top:13px}}
+</style></head>
+<body>
+<main class="auth">
+<section class="brand">
+  <div class="mark">👑</div><div class="kicker">SAHIL AUTOPRINT • PLATFORM</div>
+  <h1>One control center for everything.</h1>
+  <p>Monitor shops, orders, payments, subscriptions, payouts, devices, support and platform health from one secure dashboard.</p>
+  <div class="points">
+    <div class="point"><b>⌁</b> Real-time platform analytics</div>
+    <div class="point"><b>₹</b> Payments, wallets & settlements</div>
+    <div class="point"><b>◈</b> Shops, devices & printers</div>
+    <div class="point"><b>🛡</b> Protected Super Admin access</div>
+  </div>
+  <div class="powered">Powered by <strong>Sahil AutoPrint</strong> • Platform Control Center.</div>
+</section>
+<section class="right"><div class="card">
+  <div class="head"><div><div class="eyebrow">SUPER ADMIN LOGIN</div><h2>Welcome, Admin 👑</h2><p class="sub">Sign in to open the platform control center.</p></div><div class="secure">🛡 SECURE</div></div>
+  <div class="form">
+    <div class="message" id="message"></div>
+    <form id="superAdminLoginForm">
+      <label class="label" for="email">Admin Email</label>
+      <div class="wrap"><span class="icon">✉️</span><input id="email" type="email" autocomplete="username" placeholder="Super Admin email" required></div>
+      <label class="label" for="password">Password</label>
+      <div class="wrap"><span class="icon">🔐</span><input id="password" type="password" autocomplete="current-password" placeholder="Enter admin password" required><button class="toggle" id="showPassword" type="button">Show</button></div>
+      <button class="btn" id="loginButton" type="submit">Login as Super Admin →</button>
+    </form>
+    <div class="info"><span>🛡️</span><div>Access is verified against the platform admin account. Only authorized Super Admin users can continue.</div></div>
+    <div class="foot">Secure authentication • Sahil AutoPrint Platform</div>
+  </div>
+</div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="super-admin-login.js"></script>
+</body></html>

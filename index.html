@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Auto Print • Print Order</title>
+
+<style>
+:root{
+  --navy:#14213d;
+  --blue:#3157d5;
+  --soft:#f4f7fb;
+  --line:#dce3ee;
+  --muted:#6b7890;
+  --green:#138a50;
+  --red:#c62828;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:linear-gradient(180deg,#f7f9fd,#edf2f8);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--navy);
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+.wrap{
+  width:min(820px,100%);
+  margin:auto;
+  padding:22px 16px 48px;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  margin-bottom:16px;
+}
+
+.logo{
+  width:54px;
+  height:54px;
+  border-radius:16px;
+  background:var(--navy);
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:26px;
+  overflow:hidden;
+  flex:none;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.brand h1{
+  margin:0;
+  font-size:24px;
+}
+
+.brand p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e4e9f1;
+  border-radius:24px;
+  box-shadow:0 18px 55px rgba(20,33,61,.08);
+  padding:25px;
+}
+
+.shop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding-bottom:18px;
+  border-bottom:1px solid #edf1f6;
+}
+
+.shop h2{
+  margin:0 0 4px;
+  font-size:21px;
+}
+
+.shop small{
+  color:var(--muted);
+}
+
+.badge{
+  white-space:nowrap;
+  background:#eaf7f0;
+  color:var(--green);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.section{
+  margin-top:24px;
+}
+
+.label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:850;
+  margin-bottom:10px;
+  font-size:15px;
+}
+
+.step{
+  display:grid;
+  place-items:center;
+  width:25px;
+  height:25px;
+  border-radius:8px;
+  background:#eef2ff;
+  color:var(--blue);
+  font-size:12px;
+  flex:none;
+}
+
+.mode-grid,
+.type-grid,
+.layout-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.option{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  background:#fff;
+  cursor:pointer;
+  text-align:left;
+  transition:.15s;
+  color:var(--navy);
+}
+
+.option:hover{
+  border-color:#9faed0;
+  transform:translateY(-1px);
+}
+
+.option.active{
+  border:2px solid var(--blue);
+  background:#f5f7ff;
+  padding:14px;
+}
+
+.option strong{
+  display:block;
+  font-size:15px;
+}
+
+.option small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.upload-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.upload-box{
+  border:2px dashed #cbd5e4;
+  border-radius:18px;
+  padding:24px;
+  text-align:center;
+  background:#fafcff;
+  transition:.15s;
+  cursor:pointer;
+}
+
+.upload-box:hover,
+.upload-box.dragover{
+  border-color:var(--blue);
+  background:#f4f7ff;
+}
+
+.upload-icon{
+  font-size:30px;
+  margin-bottom:7px;
+}
+
+.upload-box strong{
+  display:block;
+}
+
+.upload-box small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.choose{
+  display:inline-block;
+  margin-top:12px;
+  background:var(--navy);
+  color:#fff;
+  padding:11px 17px;
+  border-radius:10px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+input[type=file]{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.file{
+  margin-top:9px;
+  padding:11px 12px;
+  background:#f1f4f8;
+  border-radius:11px;
+  color:#64728a;
+  font-size:13px;
+  word-break:break-word;
+}
+
+.file.selected{
+  background:#eaf7f0;
+  color:#126c43;
+  font-weight:700;
+}
+
+.page-count{
+  margin-top:10px;
+  padding:12px 14px;
+  background:#eef5ff;
+  border:1px solid #d8e5ff;
+  border-radius:12px;
+  color:#254da8;
+  font-weight:800;
+}
+
+.hint{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:7px;
+}
+
+.field{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:13px 14px;
+  font-size:15px;
+  background:#fff;
+  color:var(--navy);
+  outline:none;
+}
+
+.field:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px #3157d51a;
+}
+
+.copies{
+  display:grid;
+  grid-template-columns:58px 1fr 58px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  height:50px;
+}
+
+.copies button{
+  border:0;
+  background:#eef2f7;
+  font-size:24px;
+  color:var(--navy);
+  cursor:pointer;
+}
+
+.copies button:hover{
+  background:#e1e7f0;
+}
+
+.copies span{
+  display:grid;
+  place-items:center;
+  font-weight:850;
+  font-size:17px;
+}
+
+.amount{
+  margin-top:24px;
+  padding:18px;
+  background:#f0f4fb;
+  border-radius:16px;
+}
+
+.amount-row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+}
+
+.amount-row span{
+  color:#59677e;
+}
+
+.amount-total{
+  border-top:1px solid #dce3ee;
+  margin-top:8px;
+  padding-top:12px;
+}
+
+.amount-total strong{
+  font-size:26px;
+}
+
+.primary{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  background:var(--navy);
+  color:#fff;
+  padding:15px;
+  font-size:16px;
+  font-weight:850;
+  cursor:pointer;
+  margin-top:14px;
+}
+
+.primary:hover{
+  background:#0e1930;
+}
+
+.primary:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.note{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin:12px 0 0;
+}
+
+.error{
+  display:none;
+  background:#fff0f0;
+  color:var(--red);
+  padding:12px 14px;
+  border-radius:12px;
+  margin-top:13px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.success{
+  position:fixed;
+  inset:0;
+  background:rgba(10,18,32,.68);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:20;
+}
+
+.success.show{
+  display:flex;
+}
+
+.success-card{
+  background:#fff;
+  border-radius:24px;
+  width:min(530px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:27px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25);
+}
+
+.check{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:#e9f8f0;
+  color:var(--green);
+  display:grid;
+  place-items:center;
+  font-size:32px;
+  margin:0 auto 12px;
+}
+
+.success-card h2{
+  text-align:center;
+  margin:0;
+}
+
+.success-card>p{
+  text-align:center;
+  color:var(--muted);
+}
+
+.summary{
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:12px;
+  margin-top:18px;
+}
+
+.srow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 3px;
+  border-bottom:1px solid #edf0f5;
+}
+
+.srow:last-child{
+  border-bottom:0;
+}
+
+.srow span{
+  color:var(--muted);
+}
+
+.actions2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
+
+.secondary{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:13px;
+  color:var(--navy);
+  font-weight:800;
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:600px){
+
+  .card{
+    padding:18px;
+  }
+
+  .mode-grid,
+  .type-grid,
+  .layout-grid,
+  .upload-grid,
+  .actions2{
+    grid-template-columns:1fr;
+  }
+
+  .shop{
+    align-items:flex-start;
+  }
+
+  .badge{
+    font-size:11px;
+  }
+
+  .top{
+    padding:0 3px;
+  }
+}
+</style>
+
+<!-- Razorpay -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!-- PDF.js: automatic PDF page counting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+
+<style id="customer-page-selection-addition">
+.page-selection-box{margin-top:12px;padding:14px;border:1px solid #ddd;border-radius:12px;background:#fafafa}
+.page-selection-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.page-selection-row .field{flex:1;min-width:220px}
+.page-selection-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.page-selection-actions button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer}
+.page-selection-status{margin-top:8px;font-size:.9rem}
+.page-selection-error{color:#b00020;margin-top:6px;font-size:.88rem}
+@media (max-width:600px){.page-selection-row .field{min-width:100%}}
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+
+    <div class="logo">
+      <img id="shopLogo" alt="" onerror="this.style.display='none'">
+      🖨️
+    </div>
+
+    <div class="brand">
+      <h1>Auto Print</h1>
+      <p>Upload • Select • Submit • Print</p>
+    </div>
+
+  </header>
+
+
+  <main class="card">
+
+    <!-- SHOP -->
+    <div class="shop">
+
+      <div>
+        <h2 id="shopName">Loading Shop...</h2>
+        <small id="shopId">Shop ID: —</small>
+      </div>
+
+      <span class="badge">
+        A4 PRINTING
+      </span>
+
+    </div>
+
+
+    <!-- STEP 1 -->
+    <div class="section">
+
+      <label class="label">
+        <span class="step">1</span>
+        What do you want to print?
+      </label>
+
+      <div class="mode-grid">
+
+        <button
+          class="option active"
+          id="singleMode"
+          type="button"
+        >
+          <strong>📄 Document</strong>
+          <small>PDF, JPG, JPEG or PNG</small>
+        </button>
+
+        <button
+          class="option"
+          id="idMode"
+          type="button"
+        >
+          <strong>🪪 ID Card</strong>
+          <small>Front + Back on A4</small>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- DOCUMENT -->
+    <div
+      class="section"
+      id="singleBox"
+    >
+
+      <label class="label">
+        <span class="step">2</span>
+        Upload Document
+      </label>
+
+      <div
+        class="upload-box"
+        data-drop-target="singleFile"
+      >
+
+        <div class="upload-icon">
+          ☁️
+        </div>
+
+        <strong>
+          Choose your document
+        </strong>
+
+        <small>
+          PDF, JPG, JPEG, PNG • Maximum 50 MB
+        </small>
+
+        <label
+          class="choose"
+          for="singleFile"
+        >
+          Choose File
+        </label>
+
+      </div>
+
+      <input
+        id="singleFile"
+        type="file"
+        accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+      >
+
+      <div
+        class="file"
+        id="singleName"
+      >
+        No file selected
+      </div>
+
+      <div
+        class="page-count hidden"
+        id="pageCount"
+      >
+        📄 PDF Pages:
+        <strong id="pageNumber">0</strong>
+      </div>
+
+      <small
+        class="hint"
+        id="pageInfo"
+      >
+        PDF pages will be counted automatically.
+      </small>
+
+      <!-- PDF PAGE SELECTION (ADDED WITHOUT CHANGING EXISTING CONTROLS) -->
+      <div class="page-selection-box hidden" id="pdfPageSelection">
+        <strong>📑 Select PDF Pages</strong>
+        <div class="page-selection-row" style="margin-top:8px">
+          <input
+            id="pageSelectionInput"
+            class="field"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            placeholder="Example: 1-3,5,8-10"
+            aria-label="PDF page selection"
+          >
+        </div>
+        <div class="page-selection-actions">
+          <button id="applyPageSelection" type="button">Apply Selection</button>
+          <button id="selectAllPages" type="button">Select All Pages</button>
+        </div>
+        <div class="page-selection-status" id="selectedPageInfo">Select pages to print.</div>
+        <div class="page-selection-error hidden" id="pageSelectionError"></div>
+        <small class="hint">Use individual pages or ranges, for example: 1,3,5-8.</small>
+      </div>
+
+    </div>
+
+
+    <!-- ID CARD -->
+    <div
+      class="section hidden"
+      id="idBox"
+    >
+
+      <label class="label">
+        <span class="step">2</span>
+        Upload ID Card
+      </label>
+
+      <div class="upload-grid">
+
+        <!-- FRONT -->
+        <div>
+
+          <div
+            class="upload-box"
+            data-drop-target="frontFile"
+          >
+
+            <div class="upload-icon">
+              ⬆️
+            </div>
+
+            <strong>
+              Front Side
+            </strong>
+
+            <small>
+              JPG / JPEG / PNG • Max 50 MB
+            </small>
+
+            <label
+              class="choose"
+              for="frontFile"
+            >
+              Choose Front
+            </label>
+
+          </div>
+
+          <input
+            id="frontFile"
+            type="file"
+            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+          >
+
+          <div
+            class="file"
+            id="frontName"
+          >
+            No front file
+          </div>
+
+        </div>
+
+
+        <!-- BACK -->
+        <div>
+
+          <div
+            class="upload-box"
+            data-drop-target="backFile"
+          >
+
+            <div class="upload-icon">
+              ⬆️
+            </div>
+
+            <strong>
+              Back Side
+            </strong>
+
+            <small>
+              JPG / JPEG / PNG • Max 50 MB
+            </small>
+
+            <label
+              class="choose"
+              for="backFile"
+            >
+              Choose Back
+            </label>
+
+          </div>
+
+          <input
+            id="backFile"
+            type="file"
+            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+          >
+
+          <div
+            class="file"
+            id="backName"
+          >
+            No back file
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ID TYPE -->
+    <div
+      class="section hidden"
+      id="idTypeSection"
+    >
+
+      <label class="label">
+        <span class="step">3</span>
+        ID Document Type
+      </label>
+
+      <select
+        id="idType"
+        class="field"
+      >
+        <option value="AADHAAR">
+          Aadhaar Card
+        </option>
+
+        <option value="PAN">
+          PAN Card
+        </option>
+
+        <option value="VOTER_ID">
+          Voter ID
+        </option>
+
+        <option value="DRIVING_LICENSE">
+          Driving Licence
+        </option>
+
+        <option value="OTHER">
+          Other
+        </option>
+      </select>
+
+    </div>
+
+
+    <!-- PAPER -->
+    <div
+      class="section"
+      id="paperSection"
+    >
+
+      <label class="label">
+        <span class="step">3</span>
+        Paper Size
+      </label>
+
+      <select
+        id="paper"
+        class="field"
+        disabled
+      >
+        <option value="A4">
+          A4
+        </option>
+      </select>
+
+      <small class="hint">
+        A4 only — fixed printing size.
+      </small>
+
+    </div>
+
+
+    <!-- LAYOUT -->
+    <div
+      class="section"
+      id="layoutSection"
+    >
+
+      <label class="label">
+        <span class="step">4</span>
+        Layout
+      </label>
+
+      <div class="layout-grid">
+
+        <button
+          class="option active layout"
+          type="button"
+          data-layout="portrait"
+        >
+          <strong>
+            ▯ Portrait
+          </strong>
+
+          <small>
+            A4 vertical
+          </small>
+        </button>
+
+        <button
+          class="option layout"
+          type="button"
+          data-layout="landscape"
+        >
+          <strong>
+            ▭ Landscape
+          </strong>
+
+          <small>
+            A4 horizontal
+          </small>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- PRINT TYPE -->
+    <div class="section">
+
+      <label class="label">
+        <span class="step">5</span>
+        Print Type
+      </label>
+
+      <div class="type-grid">
+
+        <button
+          class="option active ptype"
+          type="button"
+          data-type="bw"
+        >
+          <strong>
+            ⚫ Black & White
+          </strong>
+
+          <small>
+            ₹2 / page
+          </small>
+        </button>
+
+        <button
+          class="option ptype"
+          type="button"
+          data-type="color"
+        >
+          <strong>
+            🌈 Color
+          </strong>
+
+          <small>
+            ₹10 / page
+          </small>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- COPIES -->
+    <div class="section">
+
+      <label class="label">
+        <span class="step">6</span>
+        Copies
+      </label>
+
+      <div class="copies">
+
+        <button
+          id="minus"
+          type="button"
+          aria-label="Decrease copies"
+        >
+          −
+        </button>
+
+        <span id="copies">
+          1
+        </span>
+
+        <button
+          id="plus"
+          type="button"
+          aria-label="Increase copies"
+        >
+          +
+        </button>
+
+      </div>
+
+      <small class="hint">
+        Minimum 1 copy.
+      </small>
+
+    </div>
+
+
+    <!-- MOBILE -->
+    <div class="section">
+
+      <label class="label">
+        <span class="step">7</span>
+        Phone Number
+      </label>
+
+      <input
+        id="mobile"
+        class="field"
+        type="tel"
+        inputmode="numeric"
+        autocomplete="tel"
+        maxlength="10"
+        placeholder="Enter 10-digit mobile number"
+      >
+
+      <small class="hint">
+        Your mobile number is used for order identification.
+      </small>
+
+    </div>
+
+
+    <!-- AMOUNT -->
+    <div class="amount">
+
+      <div class="amount-row">
+        <span>
+          Pages
+        </span>
+
+        <strong id="summaryPages">
+          0
+        </strong>
+      </div>
+
+      <div class="amount-row">
+        <span>
+          Copies
+        </span>
+
+        <strong id="summaryCopies">
+          1
+        </strong>
+      </div>
+
+      <div class="amount-row">
+        <span>
+          Print Type
+        </span>
+
+        <strong id="summaryType">
+          B&W
+        </strong>
+      </div>
+
+      <div class="amount-row">
+        <span>
+          Rate
+        </span>
+
+        <strong id="summaryRate">
+          ₹2.00 / page
+        </strong>
+      </div>
+
+      <div class="amount-row amount-total">
+        <span>
+          Total Amount
+        </span>
+
+        <strong id="amount">
+          ₹0.00
+        </strong>
+      </div>
+
+    </div>
+
+
+    <!-- ERROR -->
+    <div
+      class="error"
+      id="error"
+    ></div>
+
+
+    <!-- SUBMIT -->
+    <button
+      class="primary"
+      id="submit"
+      type="button"
+    >
+      Submit Print Order
+    </button>
+
+    <p class="note">
+      🔒 Your files are used only for this print order.
+    </p>
+
+  </main>
+
+</div>
+
+
+<!-- SUCCESS -->
+<div
+  class="success"
+  id="success"
+>
+
+  <div class="success-card">
+
+    <div class="check">
+      ✓
+    </div>
+
+    <h2>
+      Order Submitted
+    </h2>
+
+    <p>
+      Your order has been successfully received.
+    </p>
+
+    <div class="summary">
+
+      <div class="srow">
+        <span>Shop</span>
+        <strong id="rShop">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Order ID</span>
+        <strong id="rOrder">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Paper</span>
+        <strong>A4</strong>
+      </div>
+
+      <div class="srow">
+        <span>Print</span>
+        <strong id="rPrint">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Pages</span>
+        <strong id="rPages">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Copies</span>
+        <strong id="rCopies">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Amount</span>
+        <strong id="rAmount">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Payment</span>
+        <strong id="rPayment">—</strong>
+      </div>
+
+      <div class="srow">
+        <span>Status</span>
+        <strong id="rStatus">—</strong>
+      </div>
+
+    </div>
+
+    <div class="actions2">
+
+      <a
+        class="secondary"
+        id="trackLink"
+        target="_blank"
+        rel="noopener"
+      >
+        📦 Track Order
+      </a>
+
+      <a
+        class="secondary"
+        id="receiptLink"
+        target="_blank"
+        rel="noopener"
+      >
+        🧾 Receipt
+      </a>
+
+    </div>
+
+    <button
+      class="primary"
+      id="done"
+      type="button"
+    >
+      Done
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- YOUR EXISTING SUPABASE CONFIG -->
+<script src="supabase-config.js"></script>
+
+<!-- CUSTOMER LOGIC -->
+<script src="customer.js?v=4.0.0"></script>
+
+
+<details id="customerSupportPanel" style="margin:24px auto;max-width:760px;padding:14px 18px;border:1px solid #ddd;border-radius:14px;background:#fff">
+  <summary style="cursor:pointer;font-weight:700;font-size:18px">❓ Help & Support</summary>
+  <div style="display:grid;gap:10px;margin-top:14px">
+    <input id="supportName" placeholder="Name">
+    <input id="supportMobile" placeholder="Mobile Number">
+    <input id="supportOrderId" placeholder="Order ID (optional)">
+    <select id="supportCategory"><option value="OTHER">Other Problem</option><option value="PAYMENT">Payment</option><option value="UPLOAD">Upload</option><option value="PRINT_NOT_RECEIVED">Print Not Received</option><option value="PARTIAL_PRINT">Partial Print</option><option value="CANCELLATION">Cancellation</option><option value="REFUND">Refund</option></select>
+    <input id="supportSubject" placeholder="Subject">
+    <textarea id="supportMessage" rows="4" placeholder="अपनी समस्या लिखें"></textarea>
+    <button type="button" onclick="submitCustomerSupport()">🎫 Raise Support Ticket</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a id="customerSupportCall" href="#">📞 Call Support</a><a id="customerSupportWhatsApp" href="#">💬 WhatsApp</a></div>
+  </div>
+</details>
+<script src="customer-support.js"></script>
+</body>
+</html>

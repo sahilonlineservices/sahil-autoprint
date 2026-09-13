@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sahil AutoPrint • Shop Login</title>
+<style>
+:root{--navy:#101b3a;--navy2:#172653;--blue:#1677ff;--cyan:#15c8ff;--purple:#7b3cff;--text:#14213d;--muted:#71809a;--line:#e5eaf3;--soft:#f5f8ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text)}
+body{min-height:100vh;background:radial-gradient(circle at 12% 12%,rgba(22,119,255,.20),transparent 32%),radial-gradient(circle at 90% 90%,rgba(123,60,255,.15),transparent 28%),linear-gradient(135deg,#f7f9ff,#edf3fb);overflow:auto}
+.auth{min-height:100vh;display:grid;grid-template-columns:minmax(360px,.95fr) minmax(480px,1.05fr);gap:28px;max-width:1240px;margin:auto;padding:32px}
+.brand{position:relative;overflow:hidden;border-radius:30px;padding:48px;color:#fff;background:linear-gradient(145deg,#0d1733 0%,#172a59 52%,#104c8f 100%);box-shadow:0 30px 80px rgba(16,27,58,.25);display:flex;flex-direction:column;justify-content:center;min-height:650px}
+.brand:before{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.10);border-radius:50%;right:-180px;top:-160px;box-shadow:0 0 0 45px rgba(255,255,255,.025),0 0 0 95px rgba(255,255,255,.018)}
+.brand:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:linear-gradient(135deg,rgba(21,200,255,.18),rgba(123,60,255,.12));right:-100px;bottom:-100px;filter:blur(3px)}
+.mark{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,#1677ff,#7b3cff);display:grid;place-items:center;font-size:34px;box-shadow:0 14px 35px rgba(22,119,255,.32);position:relative;z-index:1}
+.kicker{margin-top:28px;font-size:11px;font-weight:900;letter-spacing:.18em;color:#9ecaff;text-transform:uppercase;position:relative;z-index:1}.brand h1{font-size:44px;line-height:1.04;letter-spacing:-.035em;margin:10px 0 16px;position:relative;z-index:1}.brand p{font-size:15px;line-height:1.7;color:#cbd7ee;max-width:480px;position:relative;z-index:1}
+.points{display:grid;gap:13px;margin-top:28px;position:relative;z-index:1}.point{display:flex;align-items:center;gap:11px;color:#eef4ff;font-size:13px}.point b{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.11);display:grid;place-items:center;color:#74dfff}
+.powered{margin-top:auto;padding-top:28px;color:#93a7c9;font-size:11px;position:relative;z-index:1}.powered strong{color:#fff}
+.right{display:flex;align-items:center;justify-content:center}.card{width:min(520px,100%);background:rgba(255,255,255,.97);border:1px solid rgba(229,234,243,.95);border-radius:28px;padding:34px;box-shadow:0 26px 75px rgba(20,33,61,.13)}
+.head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.15em;color:var(--blue);text-transform:uppercase}.head h2{margin:7px 0 5px;font-size:31px;letter-spacing:-.03em}.sub{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.secure{white-space:nowrap;background:#ecfaf3;color:#16834b;border:1px solid #d7eee2;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:900}
+.form{margin-top:28px}.label{display:block;font-size:12px;font-weight:850;color:#44536d;margin:0 0 7px}.wrap{height:50px;border:1px solid #dce4ef;border-radius:13px;background:#fbfcff;display:flex;align-items:center;padding:0 12px;transition:.2s;margin-bottom:17px}.wrap:focus-within{border-color:#1677ff;box-shadow:0 0 0 4px rgba(22,119,255,.09);background:#fff}.icon{width:24px;text-align:center;font-size:16px;margin-right:7px}.wrap input{width:100%;height:100%;border:0;outline:0;background:transparent;font-size:14px;color:var(--text)}.toggle{border:0;background:transparent;color:#1677ff;font-size:11px;font-weight:900;cursor:pointer;padding:6px}
+.err{display:none;color:#a92323;background:#fff1f1;border:1px solid #f1d1d1;border-radius:12px;padding:11px 12px;margin-bottom:15px;font-size:12px;line-height:1.4}.btn{width:100%;height:51px;border:0;border-radius:14px;background:linear-gradient(135deg,#101b3a,#1677ff);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 14px 30px rgba(22,119,255,.20);transition:.2s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.65;cursor:wait;transform:none}
+.links{display:flex;justify-content:space-between;gap:12px;margin-top:16px}.links a{font-size:12px;font-weight:850;color:#3157d5;text-decoration:none}.info{display:flex;gap:9px;margin-top:23px;padding:12px 13px;background:#f4f7fc;border:1px solid #e6ebf3;border-radius:12px;color:#68758a;font-size:11px;line-height:1.5}.info span{font-size:15px}.foot{text-align:center;margin-top:22px;color:#9aa6b7;font-size:10px}
+@media(max-width:900px){.auth{grid-template-columns:1fr;max-width:720px;padding:18px}.brand{min-height:280px;padding:30px}.brand h1{font-size:35px}.points{grid-template-columns:1fr 1fr}.powered{margin-top:22px}.right{padding-bottom:18px}}
+@media(max-width:560px){.auth{padding:10px}.brand{display:none}.card{padding:24px 20px;border-radius:20px}.head{display:block}.secure{display:inline-block;margin-top:13px}.links{flex-direction:column;align-items:center}}
+</style></head>
+<body>
+<main class="auth">
+<section class="brand">
+  <div class="mark">🖨️</div><div class="kicker">SAHIL AUTOPRINT • BUSINESS</div>
+  <h1>Run your print shop smarter.</h1>
+  <p>Manage orders, print queues, earnings, customers and your shop QR from one premium dashboard.</p>
+  <div class="points">
+    <div class="point"><b>✓</b> Live orders & print queue</div>
+    <div class="point"><b>₹</b> Wallet, payouts & settlements</div>
+    <div class="point"><b>⌁</b> Permanent shop QR & customer flow</div>
+    <div class="point"><b>🛡</b> Secure shop-only access</div>
+  </div>
+  <div class="powered">Powered by <strong>Sahil AutoPrint</strong> • Print Smarter, Together.</div>
+</section>
+<section class="right"><div class="card">
+  <div class="head"><div><div class="eyebrow">SHOP OWNER LOGIN</div><h2>Welcome back 👋</h2><p class="sub">Sign in to open your Shop Admin Panel.</p></div><div class="secure">🔒 SECURE</div></div>
+  <div class="form">
+    <div class="err" id="err"></div>
+    <form id="loginForm">
+      <label class="label" for="email">Email Address</label>
+      <div class="wrap"><span class="icon">✉️</span><input id="email" type="email" autocomplete="username" placeholder="Shop owner email" required></div>
+      <label class="label" for="password">Password</label>
+      <div class="wrap"><span class="icon">🔐</span><input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button class="toggle" id="showPassword" type="button">Show</button></div>
+      <button class="btn" id="loginButton" type="submit">Login to Shop Admin →</button>
+    </form>
+    <div class="links"><a href="shop-forgot-password.html">Forgot password?</a><a href="shop-signup.html">Create shop account</a></div>
+    <div class="info"><span>💡</span><div>Your Shop ID is linked automatically to your account. You don't need to enter a Shop ID here.</div></div>
+    <div class="foot">Your account and shop data are protected by secure authentication.</div>
+  </div>
+</div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="shop-login.js"></script>
+<script>document.getElementById('showPassword').addEventListener('click',function(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';this.textContent=p.type==='password'?'Show':'Hide';});</script>
+</body></html>

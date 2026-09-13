@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Print - Shop Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#10213d
+}
+
+.app{
+  display:flex;
+  min-height:100vh
+}
+
+.sidebar{
+  width:245px;
+  background:#162137;
+  color:#fff;
+  padding:24px 18px;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  height:100vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:#52627f #162137
+}
+
+.brand{
+  font-size:25px;
+  font-weight:800;
+  margin-bottom:4px
+}
+
+.sub{
+  font-size:13px;
+  color:#b9c4d7;
+  margin-bottom:28px
+}
+
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#dce4f2;
+  text-align:left;
+  padding:13px 14px;
+  border-radius:10px;
+  margin:3px 0;
+  font-size:15px;
+  cursor:pointer
+}
+
+.nav button.active,
+.nav button:hover{
+  background:#2c3d5b;
+  color:#fff
+}
+
+.main{
+  margin-left:245px;
+  width:calc(100% - 245px);
+  padding:28px
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px
+}
+
+h1{
+  font-size:31px;
+  margin:0 0 6px
+}
+
+.muted{
+  color:#667795
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  align-items:center
+}
+
+button.primary,
+.logout{
+  border:0;
+  border-radius:10px;
+  padding:12px 17px;
+  background:#162137;
+  color:white;
+  font-weight:700;
+  cursor:pointer
+}
+
+.logout{
+  background:#fff;
+  color:#162137;
+  border:1px solid #d6deea
+}
+
+.status{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.pill{
+  padding:8px 12px;
+  border-radius:999px;
+  background:#e7f8ed;
+  color:#148343;
+  font-size:13px;
+  font-weight:700
+}
+
+.pill.off{
+  background:#fff0f0;
+  color:#c0392b
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:18px
+}
+
+.card,
+.panel{
+  background:#fff;
+  border-radius:17px;
+  box-shadow:0 8px 25px rgba(22,33,55,.07);
+  padding:20px
+}
+
+.stat-title{
+  font-size:13px;
+  color:#71809a;
+  margin-bottom:9px
+}
+
+.stat-value{
+  font-size:28px;
+  font-weight:800
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.45fr 1fr;
+  gap:18px
+}
+
+.panel h2{
+  margin:0 0 16px;
+  font-size:20px
+}
+
+.table-wrap{
+  overflow:auto
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px
+}
+
+th,
+td{
+  padding:12px 10px;
+  border-bottom:1px solid #edf0f5;
+  text-align:left;
+  font-size:13px
+}
+
+th{
+  background:#f2f5f9;
+  color:#53627b
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  background:#eef2f7
+}
+
+.badge.green{
+  background:#e7f8ed;
+  color:#148343
+}
+
+.badge.blue{
+  background:#e8f0ff;
+  color:#2458b8
+}
+
+.badge.yellow{
+  background:#fff7df;
+  color:#9a6a00
+}
+
+.badge.red{
+  background:#fff0f0;
+  color:#c0392b
+}
+
+.queue-item{
+  padding:13px 0;
+  border-bottom:1px solid #edf0f5;
+  display:flex;
+  justify-content:space-between;
+  gap:10px
+}
+
+.queue-item:last-child{
+  border-bottom:0
+}
+
+.small{
+  font-size:12px;
+  color:#74829a;
+  margin-top:4px
+}
+
+.empty{
+  text-align:center;
+  color:#7b879b;
+  padding:25px
+}
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  background:#162137;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:10px;
+  display:none;
+  z-index:200
+}
+
+.loading{
+  opacity:.6
+}
+
+/* =========================
+   PRICE SETTINGS
+========================= */
+
+.price-card{
+  max-width:850px
+}
+
+.price-header{
+  margin-bottom:24px
+}
+
+.price-header h2{
+  margin:0 0 8px;
+  font-size:24px
+}
+
+.price-header p{
+  margin:0;
+  color:#667795;
+  line-height:1.5
+}
+
+.price-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:20px
+}
+
+.price-box{
+  border:1px solid #e2e7ef;
+  border-radius:16px;
+  padding:20px;
+  background:#fafbfd
+}
+
+.price-box h3{
+  margin:0 0 8px;
+  font-size:18px
+}
+
+.price-description{
+  font-size:13px;
+  color:#71809a;
+  margin-bottom:15px
+}
+
+.price-input-wrap{
+  position:relative
+}
+
+.price-symbol{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:18px;
+  font-weight:700;
+  color:#53627b
+}
+
+.price-input{
+  width:100%;
+  border:1px solid #d6deea;
+  border-radius:11px;
+  padding:14px 14px 14px 35px;
+  font-size:18px;
+  font-weight:700;
+  outline:none;
+  background:#fff
+}
+
+.price-input:focus{
+  border-color:#162137;
+  box-shadow:0 0 0 3px rgba(22,33,55,.08)
+}
+
+.price-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-top:25px;
+  padding-top:20px;
+  border-top:1px solid #edf0f5
+}
+
+.price-note{
+  font-size:13px;
+  color:#667795;
+  line-height:1.5
+}
+
+.save-price-btn{
+  border:0;
+  border-radius:11px;
+  padding:13px 22px;
+  background:#162137;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  white-space:nowrap
+}
+
+.save-price-btn:hover{
+  opacity:.92
+}
+
+.save-price-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed
+}
+
+/* =========================
+   QR
+========================= */
+
+.qr-card{
+  background:#fff;
+  border-radius:17px;
+  box-shadow:0 8px 25px rgba(22,33,55,.07);
+  padding:24px;
+  max-width:900px
+}
+
+.qr-layout{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:28px;
+  align-items:start
+}
+
+.qr-box{
+  background:#f7f9fc;
+  border:1px solid #e4e9f1;
+  border-radius:16px;
+  padding:20px;
+  text-align:center
+}
+
+#qrCanvas{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:230px;
+  background:#fff;
+  border-radius:12px;
+  padding:12px
+}
+
+#qrCanvas canvas,
+#qrCanvas img{
+  max-width:100%;
+  height:auto!important
+}
+
+.qr-shop-name{
+  font-size:20px;
+  font-weight:800;
+  margin:14px 0 4px
+}
+
+.qr-shop-id{
+  font-size:13px;
+  color:#667795
+}
+
+.qr-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:18px
+}
+
+.qr-actions button{
+  border:1px solid #d6deea;
+  border-radius:10px;
+  padding:12px 14px;
+  background:#fff;
+  color:#162137;
+  font-weight:700;
+  cursor:pointer
+}
+
+.qr-actions button.primary-qr{
+  background:#162137;
+  color:#fff;
+  border-color:#162137
+}
+
+.qr-link{
+  display:flex;
+  gap:8px;
+  margin-top:12px
+}
+
+.qr-link input{
+  flex:1;
+  min-width:0;
+  border:1px solid #d6deea;
+  border-radius:10px;
+  padding:11px 12px;
+  color:#53627b;
+  background:#f8fafc
+}
+
+.qr-info h3{
+  margin:0 0 10px;
+  font-size:21px
+}
+
+.qr-info p{
+  color:#667795;
+  line-height:1.6
+}
+
+.qr-points{
+  margin:16px 0 0;
+  padding:0;
+  list-style:none
+}
+
+.qr-points li{
+  padding:9px 0;
+  border-bottom:1px solid #edf0f5
+}
+
+.qr-points li:last-child{
+  border-bottom:0
+}
+
+.qr-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:20px
+}
+
+.qr-modal.show{
+  display:flex
+}
+
+.qr-modal-card{
+  background:#fff;
+  border-radius:18px;
+  padding:28px;
+  max-width:430px;
+  width:100%;
+  text-align:center;
+  position:relative
+}
+
+.qr-modal-card h2{
+  margin:0 0 5px
+}
+
+.qr-modal-close{
+  position:absolute;
+  right:15px;
+  top:12px;
+  border:0;
+  background:#eef2f7;
+  border-radius:10px;
+  width:38px;
+  height:38px;
+  font-size:22px;
+  cursor:pointer
+}
+
+.poster-print{
+  display:none
+}
+
+@media print{
+  body *{
+    visibility:hidden!important
+  }
+
+  .poster-print,
+  .poster-print *{
+    visibility:visible!important
+  }
+
+  .poster-print{
+    display:flex!important;
+    position:absolute;
+    inset:0;
+    width:100%;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    background:#fff
+  }
+
+  .poster-inner{
+    width:90%;
+    text-align:center;
+    padding:35px;
+    border:3px solid #162137;
+    border-radius:24px
+  }
+
+  .poster-inner .poster-qr{
+    display:flex;
+    justify-content:center;
+    margin:25px 0
+  }
+
+  .poster-inner .poster-qr canvas,
+  .poster-inner .poster-qr img{
+    width:360px!important;
+    height:360px!important
+  }
+
+  .poster-inner h1{
+    font-size:42px;
+    margin:0 0 8px
+  }
+
+  .poster-inner h2{
+    font-size:25px;
+    margin:8px 0
+  }
+
+  .poster-inner p{
+    font-size:18px;
+    color:#333
+  }
+}
+
+@media(max-width:1000px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .price-grid{
+    grid-template-columns:1fr
+  }
+}
+
+@media(max-width:700px){
+
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+    max-height:none;
+    overflow:visible
+  }
+
+  .app{
+    display:block
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+    padding:18px
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr
+  }
+
+  .top{
+    align-items:flex-start;
+    gap:15px
+  }
+
+  .actions{
+    flex-direction:column
+  }
+
+  .nav{
+    display:grid;
+    grid-template-columns:1fr 1fr
+  }
+
+  .nav button{
+    margin:2px
+  }
+
+  .price-footer{
+    flex-direction:column;
+    align-items:stretch
+  }
+
+  .save-price-btn{
+    width:100%
+  }
+}
+</style>
+</head>
+
+<body data-page="shop">
+
+<div class="app">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+  <div class="brand">AUTO PRINT</div>
+
+  <div class="sub">
+    Shop Admin Panel
+  </div>
+
+  <nav class="nav">
+
+    <button class="active" data-tab="dashboard">
+      🏠 Dashboard
+    </button>
+
+    <button data-tab="orders">
+      📦 Orders
+    </button>
+
+    <button data-tab="queue">
+      🖨️ Print Queue
+    </button>
+
+    <button data-tab="qr">
+      🔳 My QR
+    </button>
+
+    <button data-tab="customers">
+      👥 Customers
+    </button>
+
+    <button data-tab="wallet">
+      💰 Wallet
+    </button>
+
+    <button data-tab="payout">
+      🏦 Bank / UPI Payout
+    </button>
+
+    <button data-tab="support">
+      🆘 Customer Problems
+    </button>
+
+    <button data-tab="shophelp">
+      🛠️ Help Super Admin
+    </button>
+
+    <button data-tab="printer">
+      🖨️ Printer
+    </button>
+
+    <button data-tab="reports">
+      📊 Reports
+    </button>
+
+    <!-- NEW -->
+    <button data-tab="prices">
+      💵 Price Settings
+    </button>
+
+    <button data-tab="notifications">
+      🔔 Notifications
+    </button>
+
+    <button data-tab="license">
+      🔐 License
+    </button>
+
+    <button data-tab="subscriptions">
+      📅 Subscription
+    </button>
+
+    <button data-tab="backup">
+      💾 Backup / Export
+    </button>
+
+    <button data-tab="audit">
+      📋 Audit Log
+    </button>
+
+  </nav>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+  <div class="top">
+
+    <div>
+
+      <h1 id="pageTitle">
+        Dashboard
+      </h1>
+
+      <div class="muted">
+        <span id="shopName">
+          Loading shop...
+        </span>
+        ·
+        <span id="shopId">
+          -
+        </span>
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <div class="status">
+
+        <span class="pill" id="serverStatus">
+          ● Server Connected
+        </span>
+
+        <span class="pill off" id="printerStatus">
+          ● Printer Offline
+        </span>
+
+      </div>
+
+      <button class="primary" id="refreshBtn">
+        ↻ Refresh
+      </button>
+
+      <button class="logout" id="logoutBtn">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       DASHBOARD
+  ========================= -->
+
+  <section id="dashboardView">
+
+    <div class="stats">
+
+      <div class="card">
+        <div class="stat-title">
+          Today's Orders
+        </div>
+        <div class="stat-value" id="todayOrders">
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-title">
+          Today's Prints
+        </div>
+        <div class="stat-value" id="todayPrints">
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-title">
+          Today's Sales
+        </div>
+        <div class="stat-value" id="todaySales">
+          ₹0.00
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-title">
+          Wallet Balance
+        </div>
+        <div class="stat-value" id="walletBalance">
+          ₹0.00
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-title">
+          Pending Settlement
+        </div>
+        <div class="stat-value" id="pendingSettlement">
+          ₹0.00
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="panel">
+
+        <h2>
+          Recent Orders
+        </h2>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Pages</th>
+                <th>Copies</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Receipt</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="recentOrdersBody"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="panel" style="margin-bottom:18px">
+
+          <h2>
+            Print Queue
+          </h2>
+
+          <div id="queueBox"></div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <h2>
+            Notifications
+          </h2>
+
+          <div id="notificationsBox"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ORDERS
+  ========================= -->
+
+  <section id="ordersView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      All Orders
+    </h2>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Pages</th>
+            <th>Copies</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Print Status</th>
+            <th>Receipt</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="allOrdersBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PRINT QUEUE
+  ========================= -->
+
+  <section id="queueView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      Print Queue
+    </h2>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Job</th>
+            <th>Order</th>
+            <th>Pages</th>
+            <th>Copies</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="allQueueBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       CUSTOMERS
+  ========================= -->
+
+  <section id="customersView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      Customers
+    </h2>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Orders</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="customersBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       WALLET
+  ========================= -->
+
+  <section id="walletView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      Wallet
+    </h2>
+
+    <div class="stats">
+
+      <div class="card">
+
+        <div class="stat-title">
+          Available Balance
+        </div>
+
+        <div class="stat-value"
+             id="walletBalance2">
+          ₹0.00
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="stat-title">
+          Pending Settlement
+        </div>
+
+        <div class="stat-value"
+             id="pendingSettlement2">
+          ₹0.00
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PAYOUT DETAILS
+  ========================= -->
+
+  <section id="payoutView" class="panel" style="display:none">
+    <h2>🏦 Bank / UPI Payout Details</h2>
+    <div class="card" style="padding:18px;margin-bottom:16px">
+      <p class="muted">Shop Owner payout details. Customer कभी भी ये details नहीं देखेगा.</p>
+      <label>Payout Method</label>
+      <select id="payoutMethod"><option value="UPI">UPI</option><option value="BANK">Bank Account</option></select>
+      <div id="bankPayoutFields">
+        <label style="display:block;margin-top:10px">Account Holder Name</label><input id="payoutHolder" placeholder="As per bank account">
+        <label style="display:block;margin-top:10px">Bank Name</label><input id="payoutBank" placeholder="Bank name">
+        <label style="display:block;margin-top:10px">Account Number</label><input id="payoutAccount" type="password" placeholder="Bank account number">
+        <label style="display:block;margin-top:10px">IFSC Code</label><input id="payoutIfsc" placeholder="IFSC">
+      </div>
+      <div id="upiPayoutFields" style="display:none">
+        <label style="display:block;margin-top:10px">UPI ID</label><input id="payoutUpi" placeholder="name@upi">
+      </div>
+      <label style="display:block;margin-top:10px">Registered Mobile</label><input id="payoutMobile" maxlength="10" inputmode="numeric" placeholder="10-digit mobile">
+      <p id="payoutStatus" class="muted" style="margin-top:12px">Verification: Not saved</p>
+      <button id="savePayout" class="primary" style="margin-top:10px">Save Payout Details</button>
+    </div>
+    <div class="card" style="padding:18px">
+      <h3>💸 Withdraw from Wallet</h3>
+      <p class="muted">Withdrawal is allowed only after Super Admin verifies your Bank/UPI details.</p>
+      <input id="withdrawAmount" type="number" min="1" step="0.01" placeholder="Amount">
+      <button id="requestWithdrawal" class="primary" style="margin-top:10px">Request Withdrawal</button>
+    </div>
+  </section>
+
+  <!-- =========================
+       PRINTER
+  ========================= -->
+
+  <section id="printerView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      Printer Status
+    </h2>
+
+    <p>
+      Printer:
+      <strong id="printerName">
+        Not configured
+      </strong>
+    </p>
+
+    <p>
+      Status:
+      <span class="badge green"
+            id="printerBadge">
+        READY
+      </span>
+    </p>
+
+    <p>
+      Paper Size:
+      <strong>A4</strong>
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       REPORTS
+  ========================= -->
+
+  <section id="supportView" class="view" style="display:none">
+    <div class="panel-card"><h2>❓ Customer Support</h2><div class="table-wrap"><table class="table"><thead><tr><th>Ticket</th><th>Order</th><th>Customer</th><th>Category</th><th>Status</th><th>Message</th><th>Action</th></tr></thead><tbody id="shopSupportBody"></tbody></table></div></div>
+  </section>
+  <section id="refundsView" class="view" style="display:none">
+    <div class="panel-card"><h2>💸 Refund Requests</h2><div class="table-wrap"><table class="table"><thead><tr><th>Order</th><th>Amount</th><th>Reason</th><th>Status</th><th>Date</th></tr></thead><tbody id="shopRefundBody"></tbody></table></div></div>
+  </section>
+  <section id="shophelpView" class="view" style="display:none">
+  <div class="panel-card">
+    <h2>🛠️ Help Super Admin</h2>
+    <p>अपनी Shop/Printer/PC/Internet/Payment/Order/QR की समस्या Super Admin को भेजें।</p>
+    <div style="display:grid;gap:10px;max-width:700px">
+      <select id="shopHelpCategory"><option value="PRINTER">Printer</option><option value="PC_AGENT">PC / Auto Print Agent</option><option value="INTERNET">Internet</option><option value="PAYMENT">Payment</option><option value="ORDER">Order</option><option value="QR">QR</option><option value="DASHBOARD">Dashboard</option><option value="OTHER">Other</option></select>
+      <input id="shopHelpSubject" placeholder="Subject">
+      <textarea id="shopHelpMessage" rows="5" placeholder="अपनी समस्या लिखें"></textarea>
+      <button id="sendShopHelp" class="btn-sm primary-btn" type="button">📨 Send to Super Admin</button>
+      <div id="shopHelpResult"></div>
+    </div>
+  </div>
+  <div class="panel-card" style="margin-top:14px">
+    <h3>My Requests</h3>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Ticket</th><th>Category</th><th>Subject</th><th>Status</th><th>Message</th><th>Date</th></tr></thead><tbody id="shopHelpBody"></tbody></table></div>
+  </div>
+</section>
+
+<section id="reportsView"
+           class="panel"
+           style="display:none">
+
+    <h2>
+      Daily Report
+    </h2>
+
+    <p class="muted">
+      Today's live totals are shown below.
+    </p>
+
+    <div id="reportBox"></div>
+
+  </section>
+
+
+  <!-- =========================
+       PRICE SETTINGS
+  ========================= -->
+
+  <section id="pricesView"
+           class="panel price-card"
+           style="display:none">
+
+    <div class="price-header">
+
+      <h2>
+        💵 Price Settings
+      </h2>
+
+      <p>
+        Set the printing price for this shop.
+        These prices are used for customer orders.
+      </p>
+
+    </div>
+
+
+    <div class="price-grid">
+
+
+      <!-- B&W -->
+
+      <div class="price-box">
+
+        <h3>
+          🖤 Black & White
+        </h3>
+
+        <div class="price-description">
+          Price per A4 page
+        </div>
+
+        <div class="price-input-wrap">
+
+          <span class="price-symbol">
+            ₹
+          </span>
+
+          <input
+            id="priceBwInput"
+            class="price-input"
+            type="number"
+            min="0.01"
+            max="10000"
+            step="0.01"
+            placeholder="2.00"
+            inputmode="decimal"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- COLOUR -->
+
+      <div class="price-box">
+
+        <h3>
+          🌈 Colour
+        </h3>
+
+        <div class="price-description">
+          Price per A4 page
+        </div>
+
+        <div class="price-input-wrap">
+
+          <span class="price-symbol">
+            ₹
+          </span>
+
+          <input
+            id="priceColorInput"
+            class="price-input"
+            type="number"
+            min="0.01"
+            max="10000"
+            step="0.01"
+            placeholder="10.00"
+            inputmode="decimal"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="price-footer">
+
+      <div class="price-note">
+
+        <strong>Important:</strong>
+        Customer-side amount cannot override
+        the shop's database price.
+
+      </div>
+
+      <button
+        type="button"
+        id="savePricesBtn"
+        class="save-price-btn">
+
+        💾 Save Prices
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       NOTIFICATIONS
+  ========================= -->
+  <section id="notificationsView" class="panel" style="display:none">
+    <h2>🔔 Notifications</h2>
+    <p class="muted">Shop-specific system notifications.</p>
+    <div class="actions" style="margin-bottom:12px"><button class="primary-btn" id="refreshNotifications" type="button">↻ Refresh</button></div>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Date</th><th>Title</th><th>Message</th><th>Type</th><th>Status</th><th>Action</th></tr></thead><tbody id="notificationsBody"></tbody></table></div>
+  </section>
+
+  <!-- =========================
+       LICENSE
+  ========================= -->
+  <section id="licenseView" class="panel" style="display:none">
+    <h2>🔐 License</h2>
+    <p class="muted">Your Auto Print PC license and device authorization status.</p>
+    <div id="licenseBox" class="panel-card">Loading license...</div>
+  </section>
+
+  <!-- =========================
+       SUBSCRIPTION
+  ========================= -->
+  <section id="subscriptionsView" class="panel" style="display:none">
+    <h2>📅 Subscription</h2>
+    <div id="subscriptionBox" class="panel-card">Loading subscription...</div>
+    <div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Date</th><th>Event</th><th>Plan</th><th>Amount</th><th>Reference</th></tr></thead><tbody id="subscriptionEventsBody"></tbody></table></div>
+  </section>
+
+  <!-- =========================
+       BACKUP / EXPORT
+  ========================= -->
+  <section id="backupView" class="panel" style="display:none">
+    <h2>💾 Backup / Export</h2>
+    <p class="muted">Export this shop's operational data for local backup. Documents are not exported here.</p>
+    <div class="actions" style="margin:14px 0;flex-wrap:wrap">
+      <button class="primary-btn" id="exportShopOrders" type="button">Export Orders CSV</button>
+      <button class="primary-btn" id="exportShopCustomers" type="button">Export Customers CSV</button>
+      <button class="primary-btn" id="exportShopWallet" type="button">Export Wallet Ledger CSV</button>
+    </div>
+    <div class="panel-card"><strong>Restore on a new PC</strong><p class="muted">Sign in to this same Shop Admin account, reconnect the authorized Auto Print PC, and reconfigure the printer. Cloud order/payment data remains in the backend.</p></div>
+  </section>
+
+  <!-- =========================
+       AUDIT LOG
+  ========================= -->
+  <section id="auditView" class="panel" style="display:none">
+    <h2>📋 Audit Log</h2>
+    <p class="muted">Important actions recorded for this shop.</p>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Date</th><th>Action</th><th>Entity</th><th>Details</th></tr></thead><tbody id="shopAuditBody"></tbody></table></div>
+  </section>
+
+  <!-- =========================
+       QR
+  ========================= -->
+
+  <section id="qrView"
+           style="display:none">
+
+    <div class="qr-card">
+
+      <h2 style="margin:0 0 7px;font-size:24px">
+        My Shop QR
+      </h2>
+
+      <p class="muted"
+         style="margin:0 0 22px">
+
+        Customers can scan this QR
+        to open your shop print page.
+
+      </p>
+
+
+      <div class="qr-layout">
+
+
+        <div class="qr-box">
+
+          <div id="qrCanvas">
+
+            <span class="muted">
+              Generating QR...
+            </span>
+
+          </div>
+
+
+          <div class="qr-shop-name"
+               id="qrShopName">
+            -
+          </div>
+
+
+          <div class="qr-shop-id">
+
+            Shop ID:
+            <strong id="qrShopId">
+              -
+            </strong>
+
+          </div>
+
+
+          <div class="qr-actions">
+
+            <button
+              type="button"
+              id="previewQrBtn">
+
+              👁 Preview
+
+            </button>
+
+
+            <button
+              type="button"
+              id="downloadQrBtn"
+              class="primary-qr">
+
+              ⬇ Download QR
+
+            </button>
+
+
+            <button
+              type="button"
+              id="printQrBtn">
+
+              🖨 Print QR
+
+            </button>
+
+
+            <button
+              type="button"
+              id="posterQrBtn">
+
+              ⬇ A4 Poster
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="qr-info">
+
+          <h3>
+            Your permanent shop QR
+          </h3>
+
+          <p>
+
+            This QR is based on your Shop ID.
+            If the printed QR gets damaged or lost,
+            simply download it again and put the new
+            print on the shop.
+
+            The same Shop ID will continue to be used.
+
+          </p>
+
+
+          <ul class="qr-points">
+
+            <li>
+              ✅ Same QR link every time
+            </li>
+
+            <li>
+              ✅ Download PNG anytime
+            </li>
+
+            <li>
+              ✅ Print directly from this page
+            </li>
+
+            <li>
+              ✅ Download an A4 poster for the counter
+            </li>
+
+          </ul>
+
+
+          <div class="qr-link">
+
+            <input
+              id="qrLink"
+              type="text"
+              readonly
+              aria-label="Shop QR link"
+            >
+
+            <button
+              type="button"
+              class="primary"
+              id="copyQrLinkBtn">
+
+              Copy
+
+            </button>
+
+          </div>
+
+
+          <p class="small">
+
+            QR destination:
+            your customer
+            <code>index.html?shop_id=...</code>
+            page.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+</div>
+
+
+<!-- =========================
+     QR MODAL
+========================= -->
+
+<div class="qr-modal"
+     id="qrModal"
+     aria-hidden="true">
+
+  <div class="qr-modal-card">
+
+    <button
+      class="qr-modal-close"
+      id="qrModalClose"
+      type="button"
+      aria-label="Close">
+
+      ×
+
+    </button>
+
+    <h2 id="modalQrShopName">
+      My Shop QR
+    </h2>
+
+    <div class="small"
+         id="modalQrShopId">
+    </div>
+
+    <div id="modalQrCanvas"
+         style="display:flex;justify-content:center;margin:20px 0">
+    </div>
+
+    <div class="small">
+      Scan to open this shop
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     A4 POSTER
+========================= -->
+
+<div class="poster-print"
+     id="posterPrint">
+
+  <div class="poster-inner">
+
+    <h1>
+      AUTO PRINT
+    </h1>
+
+    <h2 id="posterShopName">
+      Shop
+    </h2>
+
+    <p>
+      Scan the QR code to send your
+      document for printing
+    </p>
+
+    <div class="poster-qr"
+         id="posterQrCanvas">
+    </div>
+
+    <h2>
+      Shop ID:
+      <span id="posterShopId">
+        -
+      </span>
+    </h2>
+
+    <p>
+      Upload • Select • Pay • Print
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================= -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<!-- =========================
+     SCRIPTS
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="shop-dashboard.js"></script><script src="shop-payout.js"></script><script src="shop-support.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="theme-color" content="#162137">
+  <title>Auto Print — Create Shop Account</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-modern">
+  <main class="signup-shell">
+    <section class="signup-brand">
+      <div class="brand-mark">🖨️</div>
+      <div class="brand-kicker">AUTO PRINT</div>
+      <h1>Start your digital print shop.</h1>
+      <p>Manage QR orders, automatic printing, payments and shop earnings from one simple system.</p>
+      <div class="brand-points">
+        <div><span>✓</span> Unique Shop QR</div>
+        <div><span>✓</span> Automatic Windows Printing</div>
+        <div><span>✓</span> Secure order & payment flow</div>
+      </div>
+    </section>
+
+    <section class="signup-card-wrap">
+      <div class="signup-card">
+        <div class="signup-head">
+          <div>
+            <div class="eyebrow">SHOP REGISTRATION</div>
+            <h2>Create Shop Account</h2>
+            <p>Enter your details to create your Auto Print shop account.</p>
+          </div>
+          <div class="secure-pill">🔒 Secure</div>
+        </div>
+
+        <div class="signup-steps" aria-label="Registration steps">
+          <div class="signup-step active"><b>1</b><span>Details</span></div>
+          <div class="step-line"></div>
+          <div class="signup-step"><b>2</b><span>Verify</span></div>
+          <div class="step-line"></div>
+          <div class="signup-step"><b>3</b><span>₹2 + Trial</span></div><div class="step-line"></div><div class="signup-step"><b>4</b><span>Dashboard</span></div>
+        </div>
+
+        <form id="signupForm" novalidate>
+          <div class="signup-grid">
+            <label class="signup-field">
+              <span>Shop Name</span>
+              <div class="input-wrap"><span>🏪</span><input id="shopName" required maxlength="100" placeholder="e.g. ABC Online Services" autocomplete="organization"></div>
+            </label>
+            <label class="signup-field">
+              <span>Owner Name</span>
+              <div class="input-wrap"><span>👤</span><input id="ownerName" required maxlength="100" placeholder="Full name" autocomplete="name"></div>
+            </label>
+            <label class="signup-field">
+              <span>Mobile Number</span>
+              <div class="input-wrap"><span>📱</span><input id="mobile" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" autocomplete="tel"></div>
+            </label>
+            <label class="signup-field">
+              <span>Email Address</span>
+              <div class="input-wrap"><span>✉️</span><input id="email" type="email" required maxlength="160" placeholder="you@example.com" autocomplete="email"></div>
+            </label>
+            <label class="signup-field full">
+              <span>Password</span>
+              <div class="input-wrap"><span>🔑</span><input id="password" type="password" required minlength="8" maxlength="72" placeholder="Minimum 8 characters" autocomplete="new-password"><button type="button" class="password-toggle" data-target="password" aria-label="Show password">Show</button></div>
+              <div class="password-meter"><i id="passwordMeter"></i></div>
+            </label>
+            <label class="signup-field full">
+              <span>Confirm Password</span>
+              <div class="input-wrap"><span>✓</span><input id="confirmPassword" type="password" required minlength="8" maxlength="72" placeholder="Re-enter your password" autocomplete="new-password"><button type="button" class="password-toggle" data-target="confirmPassword" aria-label="Show password">Show</button></div>
+            </label>
+          </div>
+
+          <div class="signup-note"><span>🛡️</span><div><b>Registration:</b> ₹2 verification → 2-day free trial. After verification, Razorpay AutoPay authorization is required for the paid subscription. Your password is never shared.</div></div>
+          <button class="signup-primary" id="signupButton" type="submit"><span>Create Shop Account</span><b>→</b></button>
+        </form>
+
+        <div id="message" class="auth-message" role="alert"></div>
+        <div class="signup-footer">Already have an account? <a href="shop-login.html">Login here</a></div>
+        <div class="trial-note">After email verification, your Shop ID will be created automatically.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="shop-signup.js"></script>
+</body>
+</html>
